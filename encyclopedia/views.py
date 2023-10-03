@@ -1,5 +1,5 @@
-from django.shortcuts import render
-
+from django.shortcuts import redirect, render
+#from markdown2 import markdown
 from . import util
 
 
@@ -14,6 +14,17 @@ def title(request, title):
             "error": title 
         })
     else:
+        contentmd = util.get_entry(title)
+        #content = markdown(contentmd)
         return render(request, "encyclopedia/title.html", {
-            "info": util.get_entry(title), "title": title 
+            "content": contentmd, "title": title 
         })
+    
+def search(request):
+    q = request.GET.get('q').strip()
+    if q in util.list_entries():
+        return redirect("title", title=q)
+    return render(request, "encyclopedia/search.html", {
+        "entries" : util.search(q), 
+        "q" : q
+    })
