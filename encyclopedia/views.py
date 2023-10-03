@@ -9,6 +9,11 @@ def index(request):
     })
 
 def title(request, title):
-    return render(request, "encyclopedia/title.html", {
-        "title": util.get_entry(title)
-    })
+    if title not in util.list_entries():
+        return render(request, "encyclopedia/error.html", {
+            "error": title 
+        })
+    else:
+        return render(request, "encyclopedia/title.html", {
+            "info": util.get_entry(title), "title": title 
+        })

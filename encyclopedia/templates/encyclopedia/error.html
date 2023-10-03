@@ -1,0 +1,14 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{error}}
+{% endblock %}
+
+{% block body %}
+    <h1>All Pages</h1>
+
+    <div class="alert alert-danger" role="alert">
+        Request Not Found, if you would like to create a new page, you can click on the next link "<a href="#" class="alert-link">Create New Page</a>". This will redirect you to another page. 
+    </div>
+
+{% endblock %}
