@@ -8,7 +8,7 @@ def index(request):
         "entries": util.list_entries()
     })
 
-def title(request, title):
+def entry(request, title):
     if title not in util.list_entries():
         return render(request, "encyclopedia/error.html", {
             "error": title 
@@ -16,14 +16,14 @@ def title(request, title):
     else:
         contentmd = util.get_entry(title)
         #content = markdown(contentmd)
-        return render(request, "encyclopedia/title.html", {
+        return render(request, "encyclopedia/entry.html", {
             "content": contentmd, "title": title 
         })
     
 def search(request):
     q = request.GET.get('q').strip()
     if q in util.list_entries():
-        return redirect("title", title=q)
+        return redirect("entry", title=q)
     return render(request, "encyclopedia/search.html", {
         "entries" : util.search(q), 
         "q" : q
