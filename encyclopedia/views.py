@@ -33,8 +33,8 @@ def search(request):
     for s_entry in s_entries:
         if q in s_entry:
             find_entries.append(s_entry)
-            print(f'Se agrega {s_entry}')
-    print(f'Visualizando la(s) que encontro {find_entries}')
+            print(f'{s_entry} is added')
+    print(f'List of entries added {find_entries}')
         
 
     if find_entries:
@@ -44,4 +44,9 @@ def search(request):
         })
     else:
         return render(request, "encyclopedia/error.html")
+    
+
+def new_page(request):
+        return render(request, "encyclopedia/new.html")
+
 

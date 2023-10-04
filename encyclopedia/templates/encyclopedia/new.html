@@ -1,0 +1,25 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    New Page 
+{% endblock %}
+
+{% block body %}
+    <h1>Creating New Page</h1>
+    <div>
+        <!--Here goes the error alert-->
+    </div>
+    <form action="">
+        <div>
+            <input type="text" name="new_title" id="nwpg_title">
+            <textarea name="new_md" id="nwpg_md" cols="30" rows="5" placeholder="Content..."></textarea>
+        </div>
+        <div>
+            <input type="submit" value="Save"/>
+        </div>
+    </form>
+    
+        
+    
+    
+{% endblock %}
