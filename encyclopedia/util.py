@@ -36,10 +36,10 @@ def get_entry(title):
     except FileNotFoundError:
         return None
 
-def search(query):
-    """
-    Returns a list of all names of encyclopedia entries containing the search query
-    """
-    _, filenames = default_storage.listdir("entries")
-    return list(sorted(re.sub(r"\.md$", "", filename)
-                for filename in filenames if filename.endswith(".md") and query in filename.lower()))
+#def search(query):
+#    """
+#    Returns a list of all names of encyclopedia entries containing the search query
+#    """
+#    _, filenames = default_storage.listdir("entries")
+#    return list(sorted(re.sub(r"\.md$", "", filename)
+#3                for filename in filenames if filename.endswith(".md") and query in filename.lower()))

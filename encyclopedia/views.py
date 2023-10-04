@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 #from markdown2 import markdown
 from . import util
@@ -21,10 +22,26 @@ def entry(request, title):
         })
     
 def search(request):
+    s_entries = util.list_entries()
+    find_entries = list()
+
     q = request.GET.get('q').strip()
     if q in util.list_entries():
-        return redirect("entry", title=q)
-    return render(request, "encyclopedia/search.html", {
-        "entries" : util.search(q), 
+        return HttpResponseRedirect(f"wiki/{q}")
+        #return redirect("entry", title=q)
+    
+    for s_entry in s_entries:
+        if q in s_entry:
+            find_entries.append(s_entry)
+            print(f'Se agrega {s_entry}')
+    print(f'Visualizando la(s) que encontro {find_entries}')
+        
+
+    if find_entries:
+        return render(request, "encyclopedia/search.html", {
+        "s_entries" : find_entries, 
         "q" : q
-    })
+        })
+    else:
+        return render(request, "encyclopedia/error.html")
+
