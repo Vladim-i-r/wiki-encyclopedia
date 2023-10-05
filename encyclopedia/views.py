@@ -48,17 +48,31 @@ def search(request):
         return render(request, "encyclopedia/error.html")
 
 class NewPageForm(forms.Form):
-    title = forms.CharField(label="New Title\n",widget=forms.TextInput(attrs={'name':'title'}))
-    content = forms.CharField(label=mark_safe("Content:"),widget=forms.Textarea(attrs={'name':'content'}))   
+    title = forms.CharField(label="New Title",widget=forms.TextInput(attrs={'name':'title'}))
+    content = forms.CharField(label="Content:",widget=forms.Textarea(attrs={'name':'content','style':'width: 80%; height: 60vh;'}))   
 
 def new_page(request):
     if request.method == "POST":
         form = NewPageForm(request.POST)
         if form.is_valid():
-            print("Si es valido y se haria el reverse para la nueva pagina")
-            #return render(request, "encyclopedia/new.html")
+            title_user = request.POST.get("title")
+            content_user = request.POST.get("content")
+            if title_user not in util.list_entries():
+                util.save_entry(title_user, content_user)
+                return render(request, "encyclopedia/entry.html",{
+                    "title": title_user,
+                    "content": content_user
+                })
+            else:
+                message = "Title already on use, it can't be saved. Try writing a different title or non-existent one."
+                return render(request, "encyclopedia/new.html",{
+                    "message": message,
+                    "form": form
+                })
         else:
-            print("Se imprime se verifica si existe y se imprime un warning, se redirije a la misma")
+            return render(request, "encyclopedia/new.html",{
+                "form": form
+            })
 
     return render(request,"encyclopedia/new.html", {
         "form":NewPageForm()

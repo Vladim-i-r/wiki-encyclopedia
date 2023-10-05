@@ -13,8 +13,8 @@ h1 {
 }
 
 textarea {
-    height: 70vh;
-    width: 80%;
+    /*height: 60vh;
+    width: 90%;*/
     resize: none;
     margin-top: 10px;
 }
