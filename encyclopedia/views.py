@@ -45,11 +45,13 @@ def search(request):
         "q" : q
         })
     else:
-        return render(request, "encyclopedia/error.html")
+        return render(request, "encyclopedia/error.html",{
+            "notfound":q
+        })
 
 class NewPageForm(forms.Form):
     title = forms.CharField(label="New Title",widget=forms.TextInput(attrs={'name':'title'}))
-    content = forms.CharField(label="Content:",widget=forms.Textarea(attrs={'name':'content','style':'width: 80%; height: 60vh;'}))   
+    content = forms.CharField(label="Content:",widget=forms.Textarea(attrs={'name':'content','style':'width: 90%; height: 60vh; resize: none; margin-top: 10px;'}))   
 
 def new_page(request):
     if request.method == "POST":

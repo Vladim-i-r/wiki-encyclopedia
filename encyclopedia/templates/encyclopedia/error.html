@@ -8,7 +8,7 @@
     <h1>Page Not Found</h1>
 
     <div class="alert alert-danger" role="alert">
-        Request Not Found, if you would like to create a new page, you can click on the next link "<a href="#" class="alert-link">Create New Page</a>". This will redirect you to another page. 
+        Request not found for "{{notfound}}", if you would like to create a new page, you can click on the next link "<a href="{% url 'new' %}" class="alert-link">Create New Page</a>". This will redirect you to another page, remember to add this title. 
     </div>
 
 {% endblock %}
