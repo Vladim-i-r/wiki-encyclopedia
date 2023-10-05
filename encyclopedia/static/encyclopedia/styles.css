@@ -13,8 +13,10 @@ h1 {
 }
 
 textarea {
-    height: 90vh;
+    height: 70vh;
     width: 80%;
+    resize: none;
+    margin-top: 10px;
 }
 
 .main {
@@ -35,4 +37,8 @@ textarea {
 
 .sidebar h2 {
     margin-top: 5px;
+}
+
+#submitbtn{
+    border: none;
 }

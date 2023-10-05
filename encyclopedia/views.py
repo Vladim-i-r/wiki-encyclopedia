@@ -2,6 +2,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 #from markdown2 import markdown
 from . import util
+from django import forms
+from django.utils.safestring import mark_safe
 
 
 def index(request):
@@ -44,9 +46,22 @@ def search(request):
         })
     else:
         return render(request, "encyclopedia/error.html")
-    
+
+class NewPageForm(forms.Form):
+    title = forms.CharField(label="New Title\n",widget=forms.TextInput(attrs={'name':'title'}))
+    content = forms.CharField(label=mark_safe("Content:"),widget=forms.Textarea(attrs={'name':'content'}))   
 
 def new_page(request):
-        return render(request, "encyclopedia/new.html")
+    if request.method == "POST":
+        form = NewPageForm(request.POST)
+        if form.is_valid():
+            print("Si es valido y se haria el reverse para la nueva pagina")
+            #return render(request, "encyclopedia/new.html")
+        else:
+            print("Se imprime se verifica si existe y se imprime un warning, se redirije a la misma")
+
+    return render(request,"encyclopedia/new.html", {
+        "form":NewPageForm()
+    })
 
 

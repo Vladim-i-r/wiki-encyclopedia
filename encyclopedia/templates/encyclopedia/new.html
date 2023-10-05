@@ -9,17 +9,13 @@
     <div>
         <!--Here goes the error alert-->
     </div>
-    <form action="">
+
+    <form method="POST" action="{% url 'new' %}">
+        {% csrf_token %}
+        {{ form }}
         <div>
-            <input type="text" name="new_title" id="nwpg_title">
-            <textarea name="new_md" id="nwpg_md" cols="30" rows="5" placeholder="Content..."></textarea>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <!--<input id="submitbtn" type="submit" value="Save"/>-->
         </div>
-        <div>
-            <input type="submit" value="Save"/>
-        </div>
-    </form>
-    
-        
-    
-    
+    </form>   
 {% endblock %}
