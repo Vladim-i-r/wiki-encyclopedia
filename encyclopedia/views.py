@@ -58,8 +58,8 @@ def new_page(request):
     if request.method == "POST":
         form = NewPageForm(request.POST)
         if form.is_valid():
-            title_user = request.POST.get("title")
-            content_user = request.POST.get("content")
+            title_user = request.POST.get("title") #title_user = request.session["title"] THIS IS ONLY WHEN USING A DATABASE 
+            content_user = request.POST.get("content") #content_user = request.session["content"] THIS IS ONLY WHEN USING A DATABASE 
             if title_user not in util.list_entries():
                 util.save_entry(title_user, content_user)
                 return render(request, "encyclopedia/entry.html",{
@@ -81,23 +81,39 @@ def new_page(request):
         "form":NewPageForm()
     })
 
+
 def edit_page(request, title):
     if request.method == 'POST':
-        form = NewPageForm(request.POST)
+        form = NewPageForm(initial={'title': title, 'content': util.get_entry(title)})
+        form.fields['title'].widget = forms.HiddenInput()
         if form.is_valid():
-            #title_ed = request.session["titles"]
-            #content_ed = request.session["content"]
-            #title_ed = form.cleaned_data['title']
-            #content_ed = form.cleaned_data['content']
-            util.save_entry(title_ed, content_ed)
-            return HttpResponseRedirect(f"wiki/{title_ed}")
-        else:
+            content = form.cleaned_data['content']
+            util.save_entry(title, content)
             return render(request, 'encyclopedia/edit.html', {
-                'title': title,
-                'content': util.get_entry(title)
+                "title": title,
+                "content":util.get_entry(title),
+                "form": form
+            })
+            #return HttpResponseRedirect(f"wiki/{title}")
+        else:
+            contentt = request.POST.get('content')
+            return render(request, 'encyclopedia/edit.html', {
+                "title": title,
+                "content":util.get_entry(title),
+                "form": form
             })
         
     return render(request, "encyclopedia/edit.html",{
-        "form" : NewPageForm()
+        "form" : form
     })
+
+#def save_page(request):
+ #   if request.method == 'POST':
+  #      title = request.POST.get('title')
+   #     content = request.POST.get('content')*/
+
+        
+
+def random_page(request):
+    return
 
