@@ -13,4 +13,9 @@
         
     </ul>
 
+    <form action="{%url 'edit' title%}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-secondary btn-sm">Edit Page</button>
+    </form>
+
 {% endblock %}
