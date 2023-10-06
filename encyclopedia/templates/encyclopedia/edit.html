@@ -1,0 +1,26 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Edit Page 
+{% endblock %}
+
+{% block body %}
+    <h1>Editing: {{title}} Page</h1>
+    <!--<div>
+        Here goes the error alert
+        {% if message %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+    </div>-->
+
+    <form method="POST" action="{%url 'entry' title %}">
+        {% csrf_token %}
+        {{form}}
+        <div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <!--<input id="submitbtn" type="submit" value="Save"/>-->
+        </div>
+    </form>   
+{% endblock %}
