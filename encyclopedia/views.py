@@ -1,10 +1,12 @@
+from random import randint
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.urls import reverse
+#from django.urls import reverse
 #from markdown2 import markdown
 from . import util
 from django import forms
-from django.utils.safestring import mark_safe
+import random
+
 
 
 def index(request):
@@ -51,8 +53,8 @@ def search(request):
         })
 
 class NewPageForm(forms.Form):
-    title = forms.CharField(label="New Title",widget=forms.TextInput(attrs={'name':'title'}))
-    content = forms.CharField(label="Content:",widget=forms.Textarea(attrs={'name':'content','style':'width: 90%; height: 60vh; resize: none; margin-top: 10px;'}))   
+    title = forms.CharField(label="New Title",widget=forms.TextInput(attrs={'name':'title', 'placeholder':'e.g. CS50 Wikipedia','style':'width: 35%;'}))
+    content = forms.CharField(label="Content:",widget=forms.Textarea(attrs={'name':'content','placeholder':'Content...','style':'width: 90%; height: 60vh; resize: none; margin-top: 10px;'}))   
 
 def new_page(request):
     if request.method == "POST":
@@ -81,39 +83,34 @@ def new_page(request):
         "form":NewPageForm()
     })
 
+class EditPageForm(forms.Form): # Needs to be created in order to disable the Title charfield and be readonly!!!             
+    title = forms.CharField(label="Title",widget=forms.TextInput(attrs={'name':'title','readonly':'readonly','style':'width: 35%;'}))
+    content = forms.CharField(label="Content   ↓:",widget=forms.Textarea(attrs={'name':'content','placeholder':'Content...','style':'width: 90%; height: 60vh; resize: none; margin-top: 10px;'}))   
+
 
 def edit_page(request, title):
-    if request.method == 'POST':
-        form = NewPageForm(initial={'title': title, 'content': util.get_entry(title)})
-        form.fields['title'].widget = forms.HiddenInput()
-        if form.is_valid():
-            content = form.cleaned_data['content']
-            util.save_entry(title, content)
-            return render(request, 'encyclopedia/edit.html', {
-                "title": title,
-                "content":util.get_entry(title),
-                "form": form
-            })
-            #return HttpResponseRedirect(f"wiki/{title}")
-        else:
-            contentt = request.POST.get('content')
-            return render(request, 'encyclopedia/edit.html', {
-                "title": title,
-                "content":util.get_entry(title),
-                "form": form
-            })
-        
-    return render(request, "encyclopedia/edit.html",{
-        "form" : form
-    })
+     
+    if request.method == "GET":
+        content = util.get_entry(title)
+        form = EditPageForm({"title": title, "content": content})
+        return render(request,"encyclopedia/edit.html",{
+            "form": form,
+            "title": title
+        })
 
-#def save_page(request):
- #   if request.method == 'POST':
-  #      title = request.POST.get('title')
-   #     content = request.POST.get('content')*/
+    form = EditPageForm(request.POST)
+    if form.is_valid():
+        title = form.cleaned_data.get("title")
+        content = form.cleaned_data.get("content")
+        util.save_entry(title=title, content=content)
+        return redirect("entry", title)
 
-        
+
+#def random_page(request):
+#    randomp = random.choice(util.list_entries)
+#    return redirect("entry", randomp)
 
 def random_page(request):
-    return
-
+    entries = util.list_entries()
+    randomp = entries[randint(0, len(entries) - 1)]
+    return redirect("entry", randomp)

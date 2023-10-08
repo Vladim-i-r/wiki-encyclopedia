@@ -7,7 +7,7 @@
 {% block body %}
     <h1>Editing: "{{title}}" Page</h1>
     
-    <form method="POST" action="{%url 'entry' title %}">
+    <form method="POST" action="{%url 'edit' title %}">
         {% csrf_token %}
 
         {{form}}
