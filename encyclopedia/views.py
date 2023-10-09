@@ -2,7 +2,7 @@ from random import randint
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 #from django.urls import reverse
-#from markdown2 import markdown
+from markdown2 import markdown
 from . import util
 from django import forms
 import random
@@ -21,9 +21,9 @@ def entry(request, title):
         })
     else:
         contentmd = util.get_entry(title)
-        #content = markdown(contentmd)
+        contenthtml = markdown(contentmd)
         return render(request, "encyclopedia/entry.html", {
-            "content": contentmd, "title": title 
+            "content": contenthtml, "title": title 
         })
     
 def search(request):
