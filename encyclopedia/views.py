@@ -10,11 +10,17 @@ import random
 
 
 def index(request):
+    """
+    Shows the user all the encyclopedia's entries collection
+    """
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
 
 def entry(request, title):
+    """
+    Takes the user to the selected encyclopedia entry by clicking any of the home entries collection
+    """
     if title not in util.list_entries():
         return render(request, "encyclopedia/error.html", {
             "error": title 
@@ -27,6 +33,9 @@ def entry(request, title):
         })
     
 def search(request):
+    """
+   Takes the user to the selected encyclopedia entry based on the input from the search bar
+    """
     s_entries = util.list_entries()
     find_entries = list()
 
@@ -57,6 +66,11 @@ class NewPageForm(forms.Form):
     content = forms.CharField(label="Content:",widget=forms.Textarea(attrs={'name':'content','placeholder':'Content...','style':'width: 90%; height: 60vh; resize: none; margin-top: 10px;'}))   
 
 def new_page(request):
+
+    """
+    Lets the user create a new entry and save it to the encyclopedia's entries collection
+    """
+
     if request.method == "POST":
         form = NewPageForm(request.POST)
         if form.is_valid():
@@ -89,6 +103,10 @@ class EditPageForm(forms.Form): # Needs to be created in order to disable the Ti
 
 
 def edit_page(request, title):
+
+    """
+    Lets the user edit the selected encyclopedia entry
+    """
      
     if request.method == "GET":
         content = util.get_entry(title)
@@ -102,7 +120,8 @@ def edit_page(request, title):
     if form.is_valid():
         title = form.cleaned_data.get("title")
         content = form.cleaned_data.get("content")
-        util.save_entry(title=title, content=content)
+        #util.save_entry(title=title, content=content)
+        util.save_entry(form.cleaned_data['title'], bytes(form.cleaned_data['content'], 'utf8')) #This will prevent from the function util adding blank newlines when saving
         return redirect("entry", title)
 
 
@@ -111,6 +130,9 @@ def edit_page(request, title):
 #    return redirect("entry", randomp)
 
 def random_page(request):
+    """
+    Takes the user to a random encyclopedia entry
+    """
     entries = util.list_entries()
     randomp = entries[randint(0, len(entries) - 1)]
     return redirect("entry", randomp)
