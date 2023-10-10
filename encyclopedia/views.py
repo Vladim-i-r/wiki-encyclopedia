@@ -1,12 +1,9 @@
 from random import randint
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-#from django.urls import reverse
 from markdown2 import markdown
 from . import util
 from django import forms
-import random
-
 
 
 def index(request):

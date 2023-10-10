@@ -11,7 +11,10 @@
     <body>
         <div class="row">
             <div class="sidebar col-lg-2 col-md-3">
-                <h2>Wiki</h2>
+                <div>
+                    <img src="/static/encyclopedia/WikiLogo.png" alt="CS50 Wiki Logo" style="width: 200px;">
+                </div>
+                <br><br>
                 <form action="{% url 'search' %}" method="get">
                     <input class="search" type="text" name="q" placeholder="Search Encyclopedia">
                 </form>
@@ -24,6 +27,9 @@
                 <div>
                     
                     <a href="{% url 'random'%}">Random Page</a>
+                </div>
+                <div style="padding-top: 190%;">
+                    <p style="font-size: smaller; opacity: 70%;"><em>Project 1 developed by Vladimir López</em></p>
                 </div>
                 {% block nav %}
                 {% endblock %}
