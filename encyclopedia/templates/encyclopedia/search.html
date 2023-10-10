@@ -6,7 +6,9 @@
 
 {% block body %}
     <h1>Related Pages</h1>
-    <p>We couldn't find any result with "{{q}}" but here are some related pages:</p>
+    <div class="alert alert-info" role="alert">
+        We couldn't find any result for "{{q}}" but here are some related pages:
+    </div>
     <ul>
         {% for entry in s_entries %}
         <li><a href="{% url 'entry' entry %}">{{ entry }}</a></li>

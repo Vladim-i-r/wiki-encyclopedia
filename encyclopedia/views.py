@@ -16,7 +16,7 @@ def index(request):
 
 def entry(request, title):
     """
-    Takes the user to the selected encyclopedia entry by clicking any of the home entries collection
+    Takes the user to the selected encyclopedia entry by visiting /wiki/{title}
     """
     if title not in util.list_entries():
         return render(request, "encyclopedia/error.html", {
@@ -31,7 +31,7 @@ def entry(request, title):
     
 def search(request):
     """
-   Takes the user to the selected encyclopedia entry based on the input from the search bar
+    Allow the user to type a query into the search box in the sidebar to search for an encyclopedia entry.
     """
     s_entries = util.list_entries()
     find_entries = list()
@@ -55,7 +55,7 @@ def search(request):
         })
     else:
         return render(request, "encyclopedia/error.html",{
-            "notfound":q
+            "error":q
         })
 
 class NewPageForm(forms.Form):
